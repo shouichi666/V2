@@ -4,6 +4,7 @@ import styled from "styled-components";
 import Image from "next/image";
 import { Typing } from "./";
 import { DetailButton } from "../atoms";
+import { media } from "../../assets/media";
 
 const WorkContents = ({ title, thumbnail, color, num, id }) => {
   const end = () => console.log("HOGE");
@@ -13,7 +14,7 @@ const WorkContents = ({ title, thumbnail, color, num, id }) => {
     const targetTopPosition = ref.current.getBoundingClientRect().top;
     const showTarget = () => {
       const scrollPosition = window.scrollY + window.innerHeight;
-      if (scrollPosition > targetTopPosition + 390) {
+      if (scrollPosition > targetTopPosition + 170) {
         setView(true);
       } else {
         setView(false);
@@ -27,7 +28,6 @@ const WorkContents = ({ title, thumbnail, color, num, id }) => {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  console.log(view);
   return (
     <Container
       ref={ref}
@@ -35,14 +35,15 @@ const WorkContents = ({ title, thumbnail, color, num, id }) => {
       colorS={color}
       reverse={num % 2 === 0 ? true : false}
     >
-      <TitleWrapper reverse={num % 2 === 0 ? true : false}>
+      <TitleWrapper onView={view} reverse={num % 2 === 0 ? true : false}>
         <Typing
           message={title}
           typeEnd={end}
           speed={20}
           delaySec={100}
           start={view}
-          size={55}
+          size={45}
+          center={true}
         />
       </TitleWrapper>
       <ImageWrapper onView={view}>
@@ -50,7 +51,6 @@ const WorkContents = ({ title, thumbnail, color, num, id }) => {
           src={thumbnail}
           width={980}
           height={580}
-
           objectFit='cover'
           className='borderRadius'
         />
@@ -69,10 +69,9 @@ WorkContents.propTypes = {
 };
 
 const Container = styled.div`
-  width: 100%;
-  height: 90vh;
+  width: 50%;
+  height: 80vh;
   position: relative;
-  margin: 0 0 15vh;
   overflow: hidden;
 
   &::before {
@@ -83,7 +82,7 @@ const Container = styled.div`
     height: 100%;
     content: "";
     opacity: 0;
-    transition: 0.3s;
+    transition: 0.6s;
     // transform: rotate(0deg) scale(0, 0);
     transform: scale(0, 1);
 
@@ -105,7 +104,7 @@ const Container = styled.div`
     `};
 
     ${({ reverse }) =>
-      reverse
+      !reverse
         ? `
         transform-origin: top left;
       `
@@ -113,6 +112,15 @@ const Container = styled.div`
         transform-origin: top right;
     `}
   }
+
+  ${media.tab`
+  width: 100%;
+`}
+
+  ${media.sp`
+  width: 100%;
+  height: 70vh;
+`}
 `;
 
 const TitleWrapper = styled.div`
@@ -120,16 +128,18 @@ const TitleWrapper = styled.div`
   top: 10%;
   left: 50%;
   transform: translate(-50%, -50%);
-  // width: 50%;
+  width: 100%;
 
-  ${({ reverse }) =>
-    reverse
+  ${({ onView }) =>
+    onView
       ? `
-    left: 45%;
-    `
+  transition: 0.4s;
+  transform: translate(-50%, -50%);
+  `
       : `
-    right: 45%;
-    `}
+  transition: 0.4s;
+  transform: translate(500%, -50%);
+  `};
 `;
 
 const ImageWrapper = styled.div`
@@ -142,15 +152,26 @@ const ImageWrapper = styled.div`
   opacity: 0;
 
   ${({ onView }) =>
-    onView &&
+    onView
+      ? `
+    transition: 0.4s;
+    transition-delay:0.3s;
+    opacity: 1;
+    filter: drop-shadow(5px 5px 9px rgba(19, 19, 19, 0.761));
+    top: 45%;
+    
     `
-    left: 50%;
+      : `
     transition: 0.4s;
     transition-delay:0.1s;
     opacity: 1;
     filter: drop-shadow(5px 5px 9px rgba(19, 19, 19, 0.761));
-    top:53%;
-  `};
+    top: 203%;
+    `};
+
+  ${media.sp`
+      width: 90%;
+    `}
 `;
 
 const ButtonWrapper = styled.div`

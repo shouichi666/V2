@@ -1,6 +1,7 @@
 import Head from "next/head";
 import styled from "styled-components";
 import { WorkContents, Typing } from "../components/molecules";
+import { media } from "../assets/media";
 
 const texts = {
   1: `はじめまして。横山翔一です。`,
@@ -48,18 +49,20 @@ export default function Home({ posts }) {
           </Wrapper>
         </Hero>
         <Space />
-        {posts.contents.map((content, i) => {
-          return (
-            <WorkContents
-              title={content.title}
-              thumbnail={content.thumbnail.url}
-              key={i}
-              color={content.color}
-              num={i}
-              id={content.id}
-            />
-          );
-        })}
+        <Work>
+          {posts.contents.map((content, i) => {
+            return (
+              <WorkContents
+                title={content.title}
+                thumbnail={content.thumbnail.url}
+                key={i}
+                color={content.color}
+                num={i}
+                id={content.id}
+              />
+            );
+          })}
+        </Work>
       </HomeS>
     </>
   );
@@ -94,20 +97,56 @@ const Hero = styled.div`
 
 const Wrapper = styled.div`
   position: relative;
-  width: 80%;
+  width: 60%;
+
+  ${media.tab`
+  width: 90%;
+  `}
+
+  ${media.sp`
+  width:85%;
+  `}
+`;
+
+const Work = styled.div`
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 1500px;
+  justify-content: center;
+  margin: 0 auto;
 `;
 
 const LargeText = styled.p`
   font-size: 120px;
   font-weight: 600;
   line-height: 1.2em;
+
+  ${media.tab`
+  font-size: 50px;
+  `}
+
+  ${media.sp`
+  font-size: 40px;
+  line-height: 1.3em;
+  `}
 `;
 
 const TypingContainer = styled.div`
-  width: calc(100% / 1.4);
+  width: calc(100% / 1.5);
   position: absolute;
   top: 10%;
   right: 0;
+
+  ${media.tab`
+  top: -10%;
+`}
+
+  ${media.sp`
+  width: calc(100% / 1.3);
+  top: -40%;
+`}
 `;
 
 const Space = styled.div`

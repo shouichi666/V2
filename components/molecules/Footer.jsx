@@ -16,7 +16,7 @@ const Footer = () => {
 
 const Container = styled.div`
   width: 100%;
-  padding: 20px 0;
+  padding: 50px 0;
   background-color: #313131;
 `;
 const FooterS = styled.footer`

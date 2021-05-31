@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
+import { media } from "../../assets/media";
 
 const Typing = ({
   message,
@@ -10,6 +11,7 @@ const Typing = ({
   delaySec,
   size,
   start,
+  center,
 }) => {
   const [text, setText] = useState("");
   const msgEl = useRef();
@@ -53,7 +55,7 @@ const Typing = ({
   });
 
   return (
-    <Text size={size} ref={msgEl}>
+    <Text center={center} size={size} ref={msgEl}>
       {text}
     </Text>
   );
@@ -73,6 +75,15 @@ const Text = styled.p.attrs((props) => ({
 }))`
   font-size: ${(props) => props.size}px;
   white-space: pre-line;
+  text-align: ${(props) => (props.center ? "center" : "left;")};
+
+  ${media.tab`
+    font-size: ${(props) => (props.size > 30 ? 25 : props.size / 1.3)}px;
+  `}
+
+  ${media.sp`
+  font-size: ${(props) => (props.size > 30 ? 20 : props.size / 1.4)}px;
+  `}
 `;
 
 export default Typing;
