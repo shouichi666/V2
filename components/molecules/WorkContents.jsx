@@ -27,6 +27,8 @@ const WorkContents = ({ title, thumbnail, color, num, id }) => {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  console.log(view);
+
   return (
     <Container
       ref={ref}
@@ -38,8 +40,8 @@ const WorkContents = ({ title, thumbnail, color, num, id }) => {
         <Typing
           message={title}
           typeEnd={end}
-          speed={30}
-          delaySec={110}
+          speed={20}
+          delaySec={100}
           start={view}
           size={55}
         />
@@ -47,8 +49,8 @@ const WorkContents = ({ title, thumbnail, color, num, id }) => {
       <ImageWrapper onView={view}>
         <Image
           src={thumbnail}
-          width={600}
-          height={380}
+          width={980}
+          height={580}
           objectFit='cover'
           className='borderRadius'
         />
@@ -68,7 +70,7 @@ WorkContents.propTypes = {
 
 const Container = styled.div`
   width: 100%;
-  height: 100vh;
+  height: 90vh;
   position: relative;
   margin: 0 0 15vh;
   overflow: hidden;
@@ -76,31 +78,40 @@ const Container = styled.div`
   &::before {
     position: absolute;
     top: 0;
-    width: 35%;
+    left: 0;
+    width: 100%;
     height: 100%;
     content: "";
     opacity: 0;
-    transition: 0.4s;
-    transform: rotate(0deg) scaleY(0);
+    transition: 0.3s;
+    // transform: rotate(0deg) scale(0, 0);
+    transform: scale(0, 1);
 
     ${({ onView, colorS }) =>
-      onView &&
-      typeof colorS === "string" &&
-      `
+      onView
+        ? typeof colorS === "string" &&
+          `
       background-color: ${colorS};
-      transition: 0.4s;
-      opacity:0.8;
-      transform: rotate(45deg) scaleY(2);
+      transition: 0.7s;
+      opacity:0.9;
+      transform: scale(4,1);
+    `
+        : `
+      background-color: ${colorS};
+      transition: 0.7s;
+      opacity:0.9;
+      transform: scale(0,1);
+      transform-origin: top right;
+
     `};
 
     ${({ reverse }) =>
       reverse
         ? `
-    left: 0;
-    `
+        transform-origin: top left;
+      `
         : `
-    right: 0%;
-    
+        transform-origin: top right;
     `}
   }
 `;
@@ -108,16 +119,8 @@ const Container = styled.div`
 const TitleWrapper = styled.div`
   position: absolute;
   top: 10%;
-  // width: 50%;
-
-  ${({ reverse }) =>
-    reverse
-      ? `
-    left: 45%;
-    `
-      : `
-    right: 45%;
-    `}
+  left: 50%;
+  transform: translate(-50%, -50%);
 `;
 
 const ImageWrapper = styled.div`
