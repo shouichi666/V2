@@ -2,10 +2,12 @@ import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 
-const Text = ({ text, size }) => {
+const Text = ({ text, size, center }) => {
   return (
     <>
-      <P size={size}>{text}</P>
+      <P size={size} center={center}>
+        {text}
+      </P>
     </>
   );
 };
@@ -21,6 +23,7 @@ const P = styled.p.attrs((props) => ({
   center: props.center,
 }))`
   font-size: ${(props) => props.size}px;
+  text-align: ${(props) => props.center && "center"};
 `;
 
 export default Text;

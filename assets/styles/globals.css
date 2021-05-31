@@ -17,11 +17,15 @@ a {
 
 * {
   box-sizing: border-box;
-  color: #313131;
+  color: #57f5a6;
   color: #fff;
 }
 
 p {
   margin: 0;
   padding: 0;
+}
+
+img {
+  vertical-align: top;
 }
