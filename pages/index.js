@@ -81,6 +81,7 @@ export const getStaticProps = async () => {
 
 const HomeS = styled.div`
   width: 100%;
+  position: relative;
 `;
 
 const Hero = styled.div`
