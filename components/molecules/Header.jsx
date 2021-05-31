@@ -23,11 +23,6 @@ const Header = () => {
           <Right>
             <Nav>
               <NavItem>
-                <Link href='/q'>
-                  <A>Works</A>
-                </Link>
-              </NavItem>
-              <NavItem>
                 <a
                   href='https://github.com/shouichi666'
                   rel='noreferrer noopener'

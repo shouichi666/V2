@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
+import { media } from "../../assets/media";
 
 const Text = ({ text, size, center }) => {
   return (
@@ -20,10 +21,17 @@ Text.propTypes = {
 
 const P = styled.p.attrs((props) => ({
   size: props.size,
-  center: props.center,
 }))`
   font-size: ${(props) => props.size}px;
-  text-align: ${(props) => props.center && "center"};
+  text-align: ${(props) => (props.center ? "center" : "left")};
+
+  ${media.tab`
+  font-size: ${(props) => (props.size > 30 ? 25 : props.size / 1.3)}px;
+`}
+
+  ${media.sp`
+font-size: ${(props) => (props.size > 30 ? 20 : props.size / 1.4)}px;
+`}
 `;
 
 export default Text;

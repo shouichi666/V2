@@ -1,23 +1,19 @@
-import {
-  css,
-  CSSObject,
-  FlattenSimpleInterpolation,
-  SimpleInterpolation,
-} from "styled-components";
+import { css } from "styled-components";
 
-export const sp = () => css`
-  @media (max-width: 560px) {
-    ${css(first, ...interpolations)}
-  }
-`;
-
-export const tab = () => css`
-  @media (min-width: 561px) and (max-width: 1024px) {
-    ${css(first, ...interpolations)}
-  }
-`;
-export const pc = () => css`
-  @media (min-width: 1025px) {
-    ${css(first, ...interpolations)}
-  }
-`;
+export const media = {
+  pc: (...args) => css`
+    @media (min-width: 1025px) {
+      ${css(...args)}
+    }
+  `,
+  tab: (...args) => css`
+    @media (max-width: 1024px) {
+      ${css(...args)}
+    }
+  `,
+  sp: (...args) => css`
+    @media (max-width: 568px) {
+      ${css(...args)}
+    }
+  `,
+};

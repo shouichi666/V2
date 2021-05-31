@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import styled from "styled-components";
-import { Typing } from "../../components/molecules";
+import { Typing, WorkContents } from "../../components/molecules";
 import { darken } from "polished";
 import { Text, AnimationButton } from "../../components/atoms";
+import { media } from "../../assets/media";
 
 const Post = ({ post, posts }) => {
   const [isMount, setIsMount] = useState(false);
@@ -50,24 +51,26 @@ const Post = ({ post, posts }) => {
             </Center>
           </FirstViewLeft>
           <FirstViewRight>
-            {images.map((img, i) => {
-              return (
-                <ImageWrapper
-                  key={i}
-                  data-count={i}
-                  onClick={onClick}
-                  current={i === count ? true : false}
-                  color={post.color}
-                >
-                  <Image
-                    src={img.img.url}
-                    width={150}
-                    height={90}
-                    objectFit='contain'
-                  />
-                </ImageWrapper>
-              );
-            })}
+            <Inner>
+              {images.map((img, i) => {
+                return (
+                  <ImageWrapper
+                    key={i}
+                    data-count={i}
+                    onClick={onClick}
+                    current={i === count ? true : false}
+                    color={post.color}
+                  >
+                    <Image
+                      src={img.img.url}
+                      width={150}
+                      height={90}
+                      objectFit='contain'
+                    />
+                  </ImageWrapper>
+                );
+              })}
+            </Inner>
           </FirstViewRight>
         </Container>
       </FirstView>
@@ -78,7 +81,9 @@ const Post = ({ post, posts }) => {
         <Flex>
           <FlexLeft>
             {post.language.map((p, i) => {
-              return <Text key={i} text={p.language} size={45} />;
+              return (
+                <Text key={i} text={p.language} size={45} center={false} />
+              );
             })}
           </FlexLeft>
           <FlexRight>{post.detail}</FlexRight>
@@ -87,6 +92,22 @@ const Post = ({ post, posts }) => {
           <AnimationButton href={post.url} color={post.color} />
         </ButtonContainer>
       </DetailWrapper>
+      <Work>
+        {posts.contents.map((content, i) => {
+          return post.id !== content.id ? (
+            <WorkContents
+              title={content.title}
+              thumbnail={content.thumbnail.url}
+              key={i}
+              color={content.color}
+              num={i}
+              id={content.id}
+            />
+          ) : (
+            ""
+          );
+        })}
+      </Work>
     </>
   );
 };
@@ -137,26 +158,77 @@ const FirstView = styled.div.attrs((props) => ({
     `
     background-color: ${darken(0.01, color)};
   `}
+
+  ${media.sp`
+    height: 90vh;
+  `}
 `;
 
 const Container = styled.div`
   width: 100%;
   height: 100%;
   display: flex;
+  flex-wrap: wrap;
+  align-content: stretch;
+  align-items: stretch;
+
+  ${media.sp`
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: flex-end;
+
+`}
+`;
+
+const TitleWrapper = styled.div`
+  width: 100%;
+  height: 25vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  ${media.sp`
+  margin: 10vh 0 0 0;
+  height: auto;
+`}
 `;
 
 const FirstViewLeft = styled.div`
-  flex-basis: 70%;
+  width: 70%;
   position: relative;
+  height: 75vh;
+
+  ${media.sp`
+    width: 100%;
+    height: 50vh;
+  `}
 `;
 
 const FirstViewRight = styled.div`
-  flex-basis: 30%;
+  width: 30%;
+  padding: 50px 0;
+  height: 75vh;
+
+  ${media.sp`
+    width: 100%;
+    height: 20vh;
+    padding: 0 0;
+    overflow-x: scroll;
+  `}
+`;
+
+const Inner = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
+  justify-content: flex-start;
   align-items: center;
-  padding: 0 0 50px;
+
+  ${media.sp`
+  width: auto;
+  height: auto;
+  flex-direction: row;
+  padding: 0 10px 0 0;
+  `}
 `;
 
 const Flex = styled.div`
@@ -164,13 +236,16 @@ const Flex = styled.div`
   max-width: 700px;
   margin: 4em auto 0;
   align-items: flex-start;
+
+  ${media.sp`
+  flex-direction: column-reverse;
+  `}
 `;
 
 const FlexLeft = styled.div`
   align-content: stretch;
   flex-basis: 50%;
   position: relative;
-  // background-color: red;
 `;
 
 const FlexRight = styled.div`
@@ -178,14 +253,23 @@ const FlexRight = styled.div`
   justify-content: flex-start;
   align-items: center;
   flex-basis: 50%;
+
+  ${media.sp`
+  margin: 0 0 40px;
+  `}
 `;
 
 const Center = styled.div`
   position: absolute;
-  top: 60%;
+  top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   width: 80%;
+
+  ${media.sp`
+  top: 40%;
+  width: 90%;
+  `}
 `;
 
 const ImageWrapper = styled.div`
@@ -208,19 +292,16 @@ const ImageWrapper = styled.div`
     z-index: 3;
   }
   `}
-`;
 
-const TitleWrapper = styled.div`
-  position: absolute;
-  top: 10%;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 50;
+  ${media.sp`
+  width: 300px;
+  min-width: 100px;
+  height: auto;
+  `}
 `;
 
 const DetailWrapper = styled.div`
   width: 100%;
-  height: 90vh;
   padding: 30px;
   position: relative;
 `;
@@ -230,14 +311,27 @@ const DetailTitleWrapper = styled.div`
   padding: 20px 0;
   justify-content: center;
   align-items: center;
-  padding: 50px;
+
+  ${media.sp`
+  flex-direction: column-reverse;
+  `}
 `;
 
 const ButtonContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 50px;
+  padding: 50px 0 30vh;
+`;
+
+const Work = styled.div`
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 1500px;
+  justify-content: center;
+  margin: 0 auto;
 `;
 
 export default Post;
