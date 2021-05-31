@@ -6,7 +6,7 @@ import { Typing } from "./";
 import { DetailButton } from "../atoms";
 
 const WorkContents = ({ title, thumbnail, color, num, id }) => {
-  const end = () => console.log("END ");
+  const end = () => console.log("HOGE");
   const [view, setView] = useState(false);
   const ref = useRef();
   useEffect(() => {
