@@ -28,7 +28,6 @@ const WorkContents = ({ title, thumbnail, color, num, id }) => {
   }, []);
 
   console.log(view);
-
   return (
     <Container
       ref={ref}
@@ -51,6 +50,7 @@ const WorkContents = ({ title, thumbnail, color, num, id }) => {
           src={thumbnail}
           width={980}
           height={580}
+
           objectFit='cover'
           className='borderRadius'
         />
@@ -102,7 +102,6 @@ const Container = styled.div`
       opacity:0.9;
       transform: scale(0,1);
       transform-origin: top right;
-
     `};
 
     ${({ reverse }) =>
@@ -121,6 +120,16 @@ const TitleWrapper = styled.div`
   top: 10%;
   left: 50%;
   transform: translate(-50%, -50%);
+  // width: 50%;
+
+  ${({ reverse }) =>
+    reverse
+      ? `
+    left: 45%;
+    `
+      : `
+    right: 45%;
+    `}
 `;
 
 const ImageWrapper = styled.div`
