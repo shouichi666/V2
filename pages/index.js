@@ -1,6 +1,6 @@
 import Head from "next/head";
 import styled from "styled-components";
-import Typing from "../components/molecules/Typing";
+import { WorkContents, Typing } from "../components/molecules";
 
 const texts = {
   1: `はじめまして。横山翔一です。`,
@@ -9,12 +9,8 @@ const texts = {
   3: `このサイトはNext.js,microCMS,styled-componentsを使って製作しました。`,
 };
 
-export default function Home({ post }) {
+export default function Home({ posts }) {
   const end = () => console.log("END");
-  console.log(process.env.NEXT_PUBLIC_API_URL);
-  console.log(process.env.NEXT_PUBLIC_API_KEY);
-  console.log(post);
-
   return (
     <>
       <HomeS>
@@ -26,28 +22,44 @@ export default function Home({ post }) {
             <TypingContainer>
               <Typing
                 message={texts[1]}
-                speed={50}
+                speed={40}
                 typeEnd={end}
                 size={20}
+                start={true}
                 delaySec={0}
               />
               <Typing
                 message={texts[2]}
-                speed={40}
+                speed={30}
                 typeEnd={end}
                 size={20}
+                start={true}
                 delaySec={1000}
               />
               <Typing
                 message={texts[3]}
-                speed={50}
+                speed={40}
                 typeEnd={end}
                 size={20}
+                start={true}
                 delaySec={3000}
               />
             </TypingContainer>
           </Wrapper>
         </Hero>
+        <Space />
+        {posts.contents.map((content, i) => {
+          return (
+            <WorkContents
+              title={content.title}
+              thumbnail={content.thumbnail.url}
+              key={i}
+              color={content.color}
+              num={i}
+              id={content.id}
+            />
+          );
+        })}
       </HomeS>
     </>
   );
@@ -62,7 +74,7 @@ export const getStaticProps = async () => {
     .catch(() => null);
   return {
     props: {
-      post: data,
+      posts: data,
     },
   };
 };
@@ -95,4 +107,8 @@ const TypingContainer = styled.div`
   position: absolute;
   top: 10%;
   right: 0;
+`;
+
+const Space = styled.div`
+  height: 40vh;
 `;

@@ -4,9 +4,9 @@ const path = require("path");
 require("dotenv").config();
 
 module.exports = {
-  // images: {
-  //   // ここ
-  // },
+  images: {
+    domains: ["images.microcms-assets.io"], //ドメインを指定
+  },
   webpack: (config) => {
     config.plugins = config.plugins || [];
 

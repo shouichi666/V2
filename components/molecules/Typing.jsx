@@ -2,37 +2,47 @@ import React, { useState, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 
-const Typing = ({ message, typeEnd, cursor = true, speed, delaySec, size }) => {
+const Typing = ({
+  message,
+  typeEnd,
+  // cursor = true,
+  speed,
+  delaySec,
+  size,
+  start,
+}) => {
   const [text, setText] = useState("");
   const msgEl = useRef();
 
   // 指定された間隔でstateを更新する
   useEffect(() => {
     // マウント時の処理
-    const charItr = message[Symbol.iterator]();
-    let delay;
-    let timerId;
+    if (start && text.length === 0) {
+      const charItr = message[Symbol.iterator]();
+      let delay;
+      let timerId;
 
-    function showChar() {
-      const nextChar = charItr.next();
-      if (nextChar.done) {
-        typeEnd();
-        return;
+      function showChar() {
+        const nextChar = charItr.next();
+        if (nextChar.done) {
+          typeEnd();
+          return;
+        }
+        setText((current) => current + nextChar.value);
+        timerId = setTimeout(showChar, speed);
       }
-      setText((current) => current + nextChar.value);
-      timerId = setTimeout(showChar, speed);
+
+      (function start() {
+        delay = setTimeout(showChar, delaySec);
+      })();
+
+      // アンマウント時に念のためタイマー解除
+      return () => {
+        clearTimeout(timerId);
+        clearTimeout(delay);
+      };
     }
-
-    (function start() {
-      delay = setTimeout(showChar, delaySec);
-    })();
-
-    // アンマウント時に念のためタイマー解除
-    return () => {
-      clearTimeout(timerId);
-      clearTimeout(delay);
-    };
-  }, []);
+  }, [start]);
 
   // レンダリングのたびに表示エリアをスクロールする
   useEffect(() => {
@@ -55,6 +65,7 @@ Typing.propTypes = {
   cursor: PropTypes.bool,
   speed: PropTypes.number,
   size: PropTypes.number,
+  start: PropTypes.bool,
 };
 
 const Text = styled.p.attrs((props) => ({

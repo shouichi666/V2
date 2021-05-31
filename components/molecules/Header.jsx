@@ -28,14 +28,20 @@ const Header = () => {
                 </Link>
               </NavItem>
               <NavItem>
-                <Link href='/https://github.com/shouichi666'>
-                  <A>GitHub</A>
-                </Link>
+                <a
+                  href='https://github.com/shouichi666'
+                  rel='noreferrer noopener'
+                >
+                  GitHub
+                </a>
               </NavItem>
               <NavItem>
-                <Link href='/https://twitter.com/YoKo_Ko_Yo'>
-                  <A>Twitter</A>
-                </Link>
+                <a
+                  href='https://twitter.com/YoKo_Ko_Yo'
+                  rel='noreferrer noopener'
+                >
+                  Twitter
+                </a>
               </NavItem>
             </Nav>
           </Right>
