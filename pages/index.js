@@ -1,65 +1,115 @@
-import Head from 'next/head'
-import styles from '../styles/Home.module.css'
+import Head from "next/head";
+import styled from "styled-components";
+import { WorkContents, Typing } from "../components/molecules";
 
-export default function Home() {
+const texts = {
+  1: `はじめまして。横山翔一です。`,
+  2: `御覧頂き有難う御座います。
+  未経験からフロントエンドエンジニアを目指し勉強しています。`,
+  3: `このサイトはNext.js,microCMS,styled-componentsを使って製作しました。`,
+};
+
+export default function Home({ posts }) {
+  const end = () => console.log("END");
   return (
-    <div className={styles.container}>
-      <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
-      <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
-
-        <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.js</code>
-        </p>
-
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className={styles.card}
-          >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div>
-      </main>
-
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel Logo" className={styles.logo} />
-        </a>
-      </footer>
-    </div>
-  )
+    <>
+      <HomeS>
+        <Hero>
+          <Wrapper>
+            <LargeText>HI!</LargeText>
+            <LargeText>I'M</LargeText>
+            <LargeText>SHOUICHI YOKOYAMA</LargeText>
+            <TypingContainer>
+              <Typing
+                message={texts[1]}
+                speed={40}
+                typeEnd={end}
+                size={20}
+                start={true}
+                delaySec={0}
+              />
+              <Typing
+                message={texts[2]}
+                speed={30}
+                typeEnd={end}
+                size={20}
+                start={true}
+                delaySec={1000}
+              />
+              <Typing
+                message={texts[3]}
+                speed={40}
+                typeEnd={end}
+                size={20}
+                start={true}
+                delaySec={3000}
+              />
+            </TypingContainer>
+          </Wrapper>
+        </Hero>
+        <Space />
+        {posts.contents.map((content, i) => {
+          return (
+            <WorkContents
+              title={content.title}
+              thumbnail={content.thumbnail.url}
+              key={i}
+              color={content.color}
+              num={i}
+              id={content.id}
+            />
+          );
+        })}
+      </HomeS>
+    </>
+  );
 }
+
+export const getStaticProps = async () => {
+  const key = {
+    headers: { "X-API-KEY": process.env.NEXT_PUBLIC_API_KEY },
+  };
+  const data = await fetch(process.env.NEXT_PUBLIC_API_URL, key)
+    .then((res) => res.json())
+    .catch(() => null);
+  return {
+    props: {
+      posts: data,
+    },
+  };
+};
+
+const HomeS = styled.div`
+  width: 100%;
+  position: relative;
+`;
+
+const Hero = styled.div`
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const Wrapper = styled.div`
+  position: relative;
+  width: 80%;
+`;
+
+const LargeText = styled.p`
+  font-size: 120px;
+  font-weight: 600;
+  line-height: 1.2em;
+`;
+
+const TypingContainer = styled.div`
+  width: calc(100% / 1.4);
+  position: absolute;
+  top: 10%;
+  right: 0;
+`;
+
+const Space = styled.div`
+  height: 40vh;
+`;
