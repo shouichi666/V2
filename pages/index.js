@@ -11,7 +11,7 @@ const texts = {
 };
 
 export default function Home({ posts }) {
-  const end = () => console.log("END");
+  const end = () => console.log("");
   return (
     <>
       <HomeS>
