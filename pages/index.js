@@ -11,9 +11,13 @@ const texts = {
 };
 
 export default function Home({ posts }) {
-  const end = () => console.log("");
+  const end = () => console.log(" ");
   return (
     <>
+      <Head>
+        <title>Yoko</title>
+        <meta property='description' content={"ポートフォリオ"} />
+      </Head>
       <HomeS>
         <Hero>
           <Wrapper>
