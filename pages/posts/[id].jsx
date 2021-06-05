@@ -1,3 +1,4 @@
+import Head from "next/head";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import styled from "styled-components";
@@ -12,7 +13,6 @@ const Post = ({ post, posts }) => {
   const [count, setCount] = useState(0);
 
   const end = () => console.log("ERng");
-  console.log(posts);
 
   useEffect(() => {
     setIsMount(true);
@@ -23,9 +23,11 @@ const Post = ({ post, posts }) => {
     setCount(Number(e.currentTarget.dataset.count));
   };
 
-  console.log(count);
   return (
     <>
+      <Head>
+        <title>{post.title + "|| Yoko"}</title>
+      </Head>
       <FirstView color={post.color}>
         <Container>
           <TitleWrapper>
